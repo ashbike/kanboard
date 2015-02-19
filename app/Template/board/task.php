@@ -57,7 +57,11 @@
         <div class="task-board-title">
             <?= $this->a($this->e($task['title']), 'task', 'show', array('task_id' => $task['id'], 'project_id' => $task['project_id']), false, '', t('View this task')) ?>
         </div>
-
+        
+        <?php foreach (csv2array($this->e($task['tags'])) as $tag): ?>
+           <span style="border: #cc0000 1px solid; font-size: 80%; padding:1px;"><?= $tag ?></span>
+        <?php endforeach; ?>
+        
         <?= $this->render('board/task_footer', array('task' => $task, 'categories' => $categories)) ?>
     </div>
 </div>

@@ -77,35 +77,36 @@ class TaskFinder extends Base
      */
     public function getExtendedQuery()
     {
-        return $this->db
-            ->table(Task::TABLE)
+       return $this->db
+            ->table(Task::VIEW)
             ->columns(
-                '(SELECT count(*) FROM comments WHERE task_id=tasks.id) AS nb_comments',
-                '(SELECT count(*) FROM task_has_files WHERE task_id=tasks.id) AS nb_files',
-                '(SELECT count(*) FROM task_has_subtasks WHERE task_id=tasks.id) AS nb_subtasks',
-                '(SELECT count(*) FROM task_has_subtasks WHERE task_id=tasks.id AND status=2) AS nb_completed_subtasks',
-                '(SELECT count(*) FROM ' . TaskLink::TABLE . ' WHERE ' . TaskLink::TABLE . '.task_id = tasks.id) AS nb_links',
-                'tasks.id',
-                'tasks.reference',
-                'tasks.title',
-                'tasks.description',
-                'tasks.date_creation',
-                'tasks.date_modification',
-                'tasks.date_completed',
-                'tasks.date_due',
-                'tasks.color_id',
-                'tasks.project_id',
-                'tasks.column_id',
-                'tasks.swimlane_id',
-                'tasks.owner_id',
-                'tasks.creator_id',
-                'tasks.position',
-                'tasks.is_active',
-                'tasks.score',
-                'tasks.category_id',
-                'tasks.date_moved',
+                '(SELECT count(*) FROM comments WHERE task_id=tasks_tags.id) AS nb_comments',
+                '(SELECT count(*) FROM task_has_files WHERE task_id=tasks_tags.id) AS nb_files',
+                '(SELECT count(*) FROM task_has_subtasks WHERE task_id=tasks_tags.id) AS nb_subtasks',
+                '(SELECT count(*) FROM task_has_subtasks WHERE task_id=tasks_tags.id AND status=2) AS nb_completed_subtasks',
+                '(SELECT count(*) FROM ' . TaskLink::TABLE . ' WHERE ' . TaskLink::TABLE . '.task_id = tasks_tags.id) AS nb_links',
+                'tasks_tags.id',
+                'tasks_tags.reference',
+                'tasks_tags.title',
+                'tasks_tags.description',
+                'tasks_tags.date_creation',
+                'tasks_tags.date_modification',
+                'tasks_tags.date_completed',
+                'tasks_tags.date_due',
+                'tasks_tags.color_id',
+                'tasks_tags.project_id',
+                'tasks_tags.column_id',
+                'tasks_tags.swimlane_id',
+                'tasks_tags.owner_id',
+                'tasks_tags.creator_id',
+                'tasks_tags.position',
+                'tasks_tags.is_active',
+                'tasks_tags.score',
+                'tasks_tags.category_id',
+                'tasks_tags.date_moved',
                 'users.username AS assignee_username',
-                'users.name AS assignee_name'
+                'users.name AS assignee_name',
+            	'tasks_tags.tags'
             )
             ->join(User::TABLE, 'id', 'owner_id');
     }
@@ -126,7 +127,7 @@ class TaskFinder extends Base
                     ->eq('column_id', $column_id)
                     ->eq('swimlane_id', $swimlane_id)
                     ->eq('is_active', Task::STATUS_OPEN)
-                    ->asc('tasks.position')
+                    ->asc('position')
                     ->findAll();
     }
 

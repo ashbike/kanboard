@@ -68,4 +68,12 @@ function p($value, $t1, $t2)
     return $value > 1 ? $t2 : $t1;
 }
 
+function csv2array ($data) {
+	if (empty (trim($data))) {
+		return array();
+	} else {
+		return str_getcsv ($data);
+	}
+}
+
 

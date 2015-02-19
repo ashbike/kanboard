@@ -16,6 +16,7 @@ class Task extends Base
      * @var string
      */
     const TABLE               = 'tasks';
+    const VIEW                = 'tasks_tags';
 
     /**
      * Task status
